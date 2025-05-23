@@ -1,6 +1,14 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
+import { inventoryRoutes } from './app/inventory/inventory-routing.module';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter([
+      ...inventoryRoutes,
+      { path: '', redirectTo: '/productos', pathMatch: 'full' },
+      { path: '**', redirectTo: '/productos' },
+    ]),
+  ],
+});

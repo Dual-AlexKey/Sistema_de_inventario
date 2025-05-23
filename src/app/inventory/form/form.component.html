@@ -1,0 +1,64 @@
+<div class="container">
+  <h2>{{ editMode ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
+
+  <form #form="ngForm" (ngSubmit)="guardar(form)">
+    <label>
+      Nombre:
+      <input
+        type="text"
+        name="nombre"
+        [(ngModel)]="producto.nombre"
+        required
+        minlength="3"
+      />
+    </label>
+
+    <label>
+      Stock:
+      <input
+        type="number"
+        name="stock"
+        [(ngModel)]="producto.stock"
+        required
+        min="0"
+      />
+    </label>
+
+    <label>
+      Precio unitario:
+      <input
+        type="number"
+        name="precio_unitario"
+        [(ngModel)]="producto.precio_unitario"
+        required
+        min="0"
+        step="0.01"
+      />
+    </label>
+
+    <label>
+      Unidad de medida:
+      <input
+        type="text"
+        name="unidad_medida"
+        [(ngModel)]="producto.unidad_medida"
+        required
+      />
+    </label>
+
+    <label>
+      Estado:
+      <select name="estado" [(ngModel)]="producto.estado" required>
+        <option [ngValue]="true">Activo</option>
+        <option [ngValue]="false">Inactivo</option>
+      </select>
+    </label>
+
+    <div class="buttons">
+      <button type="submit" [disabled]="form.invalid">
+        {{ editMode ? 'Actualizar' : 'Agregar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

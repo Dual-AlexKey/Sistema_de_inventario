@@ -27,4 +27,10 @@ export class CategoriaService {
   getSubcategorias(categoriaId: number): Observable<Subcategoria[]> {
     return this.http.get<Subcategoria[]>(`${this.baseUrl}/subcategorias/${categoriaId}`);
   }
+
+getSubcategoriaById(id: number): Observable<Subcategoria> {
+  return this.http.get<Subcategoria>(`${this.baseUrl}/subcategorias/id/${id}`);
+}
+
+
 }

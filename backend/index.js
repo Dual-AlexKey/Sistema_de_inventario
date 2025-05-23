@@ -96,6 +96,17 @@ app.get('/api/subcategorias/:categoriaId', async (req, res) => {
   }
 });
 
+app.get('/api/subcategorias/id/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query('SELECT * FROM subcategorias WHERE id = ?', [id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Subcategoría no encontrada' });
+    res.json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 
 

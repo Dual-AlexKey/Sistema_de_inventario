@@ -15,7 +15,7 @@
 
     <label>
   Categoría:
-  <select name="categoriaSeleccionada"   [(ngModel)]="categoriaSeleccionada" (change)="cargarSubcategorias()">
+  <select name="categoria"   [(ngModel)]="categoriaSeleccionada" (change)="cargarSubcategorias()">
     <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
   </select>
   </label>
@@ -23,7 +23,7 @@
 
   <label>
   Subcategoría:
-  <select  name="subcategoriaSeleccionada" [(ngModel)]="producto.subcategorias_id" required>
+  <select  name="subcategoria" [(ngModel)]="producto.subcategorias_id" required>
     <option *ngFor="let sub of subcategorias" [value]="sub.id">{{ sub.nombre }}</option>
   </select>
 </label>

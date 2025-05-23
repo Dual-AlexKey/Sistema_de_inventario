@@ -34,32 +34,32 @@ export class FormComponent implements OnInit {
 
   editMode = false;
   productoId?: number;
+ngOnInit(): void {
+  this.categoriaService.getCategorias().subscribe((cats) => {
+    this.categorias = cats;
 
-  ngOnInit(): void {
-    // Cargar categorías
-    this.categoriaService.getCategorias().subscribe((cats) => {
-      this.categorias = cats;
-      if (cats.length > 0) {
-        // Si está editando, cargará subcategorías después de cargar producto
-        if (!this.editMode) {
-          this.categoriaSeleccionada = cats[0].id;
-          this.cargarSubcategorias();
-        }
-      }
-    });
-
-    // Cargar producto si editMode
     this.productoId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.productoId) {
       this.editMode = true;
       this.productoService.getProductoById(this.productoId).subscribe((prod) => {
         this.producto = { ...prod };
-        // Asignar categoría basada en subcategoría (asumiendo backend o lógica propia)
-        this.categoriaSeleccionada = this.getCategoriaIdFromSubcategoria(this.producto.subcategorias_id);
-        this.cargarSubcategorias(true);
+
+        // Obtener la subcategoría para saber su categoria
+        this.categoriaService.getSubcategoriaById(this.producto.subcategorias_id!).subscribe(subcat => {
+          this.categoriaSeleccionada = subcat.categorias_id;
+          this.cargarSubcategorias(true);
+        });
       });
+    } else {
+      // Si es nuevo producto, selecciona la primera categoria y carga sus subcategorías
+      if (cats.length > 0) {
+        this.categoriaSeleccionada = cats[0].id;
+        this.cargarSubcategorias(false);
+      }
     }
-  }
+  });
+}
+
 
   cargarSubcategorias(setSelected = false) {
     this.categoriaService.getSubcategorias(this.categoriaSeleccionada).subscribe((subs) => {

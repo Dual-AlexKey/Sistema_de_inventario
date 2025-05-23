@@ -12,6 +12,8 @@ export interface Producto {
   estado: boolean;
 }
 
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +21,7 @@ export class ProductoService {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:3000/api/productos';
 
- getProductos(): Observable<Producto[]> {
+  getProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.baseUrl);
   }
 

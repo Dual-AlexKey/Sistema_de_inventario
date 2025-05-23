@@ -32,6 +32,88 @@ app.get('/api/productos', async (req, res) => {
   }
 });
 
+
+// Obtener un producto por id
+app.get('/api/productos/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query('SELECT * FROM productos WHERE id = ?', [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// Actualizar un producto por id
+app.put('/api/productos/:id', async (req, res) => {
+  const { id } = req.params;
+  const { nombre, subcategorias_id, stock, precio_unitario, unidad_medida, estado } = req.body;
+
+  try {
+    // Verificar si el producto existe
+    const [existing] = await pool.query('SELECT * FROM productos WHERE id = ?', [id]);
+    if (existing.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    // Actualizar el producto
+    await pool.query(
+      `UPDATE productos SET nombre = ?, subcategorias_id = ?, stock = ?, precio_unitario = ?, unidad_medida = ?, estado = ? WHERE id = ?`,
+      [nombre, subcategorias_id, stock, precio_unitario, unidad_medida, estado, id]
+    );
+
+    res.json({ message: 'Producto actualizado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+
+// Obtener todas las categorías
+app.get('/api/categorias', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM categorias');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Obtener subcategorías por categoría
+app.get('/api/subcategorias/:categoriaId', async (req, res) => {
+  try {
+    const { categoriaId } = req.params;
+    const [rows] = await pool.query('SELECT * FROM subcategorias WHERE categorias_id = ?', [categoriaId]);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Crear un producto
 app.post('/api/productos', async (req, res) => {
   const { nombre, subcategorias_id, stock, precio_unitario, unidad_medida, estado } = req.body;

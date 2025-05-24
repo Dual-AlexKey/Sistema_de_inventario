@@ -1,0 +1,268 @@
+/* Contenedor general */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Título */
+.container h1 {
+  color: #089151;
+  font-weight: 800;
+  font-size: 2.4rem;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Acciones: busqueda + boton */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.actions input[type="text"] {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+  margin-right: 15px;
+  color: #333;
+}
+
+.actions input[type="text"]:focus {
+  border-color: #089151;
+  outline: none;
+  box-shadow: 0 0 8px #089151aa;
+}
+
+.actions button {
+  background-color: #fddb0a;
+  border: none;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.actions button:hover {
+  background-color: #e6c806;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  font-size: 1rem;
+}
+
+/* Cabecera */
+thead th {
+  background-color: #089151;
+  color: #fff;
+  font-weight: 700;
+  padding: 14px 18px;
+  text-align: left;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  user-select: none;
+}
+
+/* Filas del cuerpo */
+tbody tr {
+  background: #fefefe;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.07);
+  transition: background-color 0.25s ease;
+  border-radius: 10px;
+}
+
+tbody tr:hover {
+  background-color: #f1f9f3;
+}
+
+/* Celdas */
+tbody td {
+  padding: 14px 18px;
+  vertical-align: middle;
+  color: #333;
+}
+
+/* Estado: verde para activo, amarillo para inactivo */
+tbody td:nth-child(5) {
+  font-weight: 700;
+  color: #089151; /* verde por defecto para activo */
+}
+
+tbody td:nth-child(5)::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+  background-color: transparent;
+}
+
+
+/* Botones de acciones */
+tbody td:last-child button {
+  background-color: #089151;
+  color: #fff;
+  border: none;
+  margin-right: 10px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+tbody td:last-child button:last-child {
+  background-color: #fddb0a;
+  color: #089151;
+  margin-right: 0;
+}
+
+tbody td:last-child button:hover {
+  filter: brightness(0.9);
+}
+
+/* Mensaje cuando no hay productos */
+tbody tr td[colspan="6"] {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  padding: 20px 0;
+}
+
+/* Paginación */
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pagination button {
+  background-color: #089151;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.pagination button:disabled {
+  background-color: #fddb0a;
+  color: #089151;
+  cursor: default;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #066a3a;
+}
+
+/* Responsive */
+@media (max-width: 680px) {
+  .actions {
+    flex-direction: column;
+  }
+  .actions input[type="text"] {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+  tbody td, thead th {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+  tbody td:last-child button {
+  margin-right: 10px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  border: none;
+  color: white;
+}
+
+/* Botón editar: siempre verde */
+tbody td:last-child button.editar {
+  background-color: #089151;
+}
+
+tbody td:last-child button.editar:hover {
+  background-color: #066a3a;
+}
+
+/* Botón eliminar: cambia color según estado */
+/* Por defecto rojo para eliminar */
+tbody td:last-child button.eliminar {
+  background-color: #c0392b;
+}
+
+tbody td:last-child button.eliminar.activo {
+  background-color: #089151;
+}
+
+tbody td:last-child button.eliminar.inactivo {
+  background-color: #e74c3c;
+}
+
+tbody td:last-child button.eliminar:hover {
+  filter: brightness(0.85);
+}
+}
+
+
+.estado-activo {
+  color: #089151; /* verde */
+  font-weight: 700;
+}
+
+.estado-inactivo {
+  color: #e74c3c; /* rojo */
+  font-weight: 700;
+}
+/* Botón eliminar: cambia color según estado */
+.eliminar {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  border: none;
+  color: white;
+}
+
+.eliminar.activo {
+  background-color: #089151; /* verde */
+}
+
+.eliminar.inactivo {
+  background-color: #e74c3c; /* rojo */
+}
+
+.eliminar:hover {
+  filter: brightness(0.85);
+}

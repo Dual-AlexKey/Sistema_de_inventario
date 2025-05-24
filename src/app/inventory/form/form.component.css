@@ -1,0 +1,153 @@
+/* form.component.css */
+
+/* Contenedor principal */
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(8, 145, 81, 0.2); /* sombra verde suave */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título del formulario */
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #089151; /* Verde oscuro */
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+/* Formulario - Layout en columna con separación */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Labels para inputs */
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #089151; /* Verde oscuro */
+  font-size: 1rem;
+  user-select: none;
+}
+
+/* Inputs y selects estilos base */
+input[type="text"],
+input[type="number"],
+select {
+  margin-top: 0.5rem;
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #fddb0a; /* borde amarillo */
+  border-radius: 6px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #333333;
+}
+
+/* Enfoque en inputs/selects */
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #089151; /* verde más oscuro en foco */
+  outline: none;
+  box-shadow: 0 0 8px #089151aa;
+}
+
+/* Contenedor de botones */
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Botones estilos base */
+button {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  box-shadow: 0 3px 6px rgba(8, 145, 81, 0.3);
+  user-select: none;
+}
+
+/* Botón submit */
+button[type="submit"] {
+  background-color: #089151; /* verde */
+  color: #ffffff;
+  border: 2px solid #089151;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #06743d; /* verde más oscuro */
+  border-color: #06743d;
+  transform: translateY(-2px);
+}
+
+button[type="submit"]:disabled {
+  background-color: #fddb0a; /* amarillo brillante para disabled */
+  border-color: #fddb0a;
+  cursor: not-allowed;
+  box-shadow: none;
+  color: #555;
+}
+
+/* Botón cancelar */
+button[type="button"] {
+  background-color: #fddb0a; /* amarillo */
+  color: #089151; /* verde oscuro */
+  border: 2px solid #fddb0a;
+}
+
+button[type="button"]:hover {
+  background-color: #d4b300; /* amarillo oscuro */
+  border-color: #d4b300;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Mensajes de error o validación */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #e63946; /* rojo fuerte para error */
+  box-shadow: 0 0 6px #e6394622;
+}
+
+/* Mensaje de error (puedes usar un <small> o <span>) */
+.error-message {
+  color: #e63946;
+  font-size: 0.875rem;
+  margin-top: 0.3rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* Responsive: ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1.5rem;
+  }
+  form {
+    gap: 1.2rem;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

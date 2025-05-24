@@ -1,34 +1,53 @@
 <div class="container">
   <h2>{{ editMode ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
 
-  <form #form="ngForm" (ngSubmit)="guardar(form)">
+  <form #form="ngForm" (ngSubmit)="guardar(form)" novalidate>
     <label>
       Nombre:
       <input
         type="text"
         name="nombre"
         [(ngModel)]="producto.nombre"
+        #nombre="ngModel"
         required
         minlength="3"
-      />
+        />
+      <small class="error-message" *ngIf="nombre.invalid && nombre.touched">
+        <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+        <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
+      </small>
     </label>
 
     <label>
-  Categoría:
-  <select name="categoria"   [(ngModel)]="categoriaSeleccionada" (change)="cargarSubcategorias()">
-    <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
-  </select>
-  </label>
+      Categoría:
+      <select
+        name="categoria"
+        [(ngModel)]="categoriaSeleccionada"
+        (change)="cargarSubcategorias()"
+        #categoria="ngModel"
+        required
+      >
+        <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+      </select>
+      <small class="error-message" *ngIf="categoria.invalid && categoria.touched">
+        Seleccione una categoría.
+      </small>
+    </label>
 
-
-  <label>
-  Subcategoría:
-  <select  name="subcategoria" [(ngModel)]="producto.subcategorias_id" required>
-    <option *ngFor="let sub of subcategorias" [value]="sub.id">{{ sub.nombre }}</option>
-  </select>
-</label>
-
-
+    <label>
+      Subcategoría:
+      <select
+        name="subcategoria"
+        [(ngModel)]="producto.subcategorias_id"
+        #subcategoria="ngModel"
+        required
+      >
+        <option *ngFor="let sub of subcategorias" [value]="sub.id">{{ sub.nombre }}</option>
+      </select>
+      <small class="error-message" *ngIf="subcategoria.invalid && subcategoria.touched">
+        Seleccione una subcategoría.
+      </small>
+    </label>
 
     <label>
       Stock:
@@ -36,9 +55,14 @@
         type="number"
         name="stock"
         [(ngModel)]="producto.stock"
+        #stock="ngModel"
         required
         min="0"
       />
+      <small class="error-message" *ngIf="stock.invalid && stock.touched">
+        <span *ngIf="stock.errors?.['required']">El stock es obligatorio.</span>
+        <span *ngIf="stock.errors?.['min']">El stock no puede ser negativo.</span>
+      </small>
     </label>
 
     <label>
@@ -47,10 +71,15 @@
         type="number"
         name="precio_unitario"
         [(ngModel)]="producto.precio_unitario"
+        #precio="ngModel"
         required
         min="0"
         step="0.01"
       />
+      <small class="error-message" *ngIf="precio.invalid && precio.touched">
+        <span *ngIf="precio.errors?.['required']">El precio es obligatorio.</span>
+        <span *ngIf="precio.errors?.['min']">El precio no puede ser negativo.</span>
+      </small>
     </label>
 
     <label>
@@ -59,18 +88,29 @@
         type="text"
         name="unidad_medida"
         [(ngModel)]="producto.unidad_medida"
+        #unidadMedida="ngModel"
         required
       />
+      <small class="error-message" *ngIf="unidadMedida.invalid && unidadMedida.touched">
+        La unidad de medida es obligatoria.
+      </small>
     </label>
 
     <label>
       Estado:
-      <select name="estado" [(ngModel)]="producto.estado" required>
+      <select
+        name="estado"
+        [(ngModel)]="producto.estado"
+        #estado="ngModel"
+        required
+      >
         <option [ngValue]="true">Activo</option>
         <option [ngValue]="false">Inactivo</option>
       </select>
+      <small class="error-message" *ngIf="estado.invalid && estado.touched">
+        Seleccione un estado.
+      </small>
     </label>
-
 
     <div class="buttons">
       <button type="submit" [disabled]="form.invalid">

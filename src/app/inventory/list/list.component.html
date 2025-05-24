@@ -28,11 +28,20 @@
         <td>{{ p.stock }}</td>
         <td>{{ p.precio_unitario | currency:'USD' }}</td>
         <td>{{ p.unidad_medida }}</td>
-        <td>{{ p.estado ? 'Activo' : 'Inactivo' }}</td>
-        <td>
-          <button (click)="editar(p.id)">Editar</button>
-          <button (click)="eliminar(p.id)">Eliminar</button>
+        <td [ngClass]="p.estado ? 'estado-activo' : 'estado-inactivo'">
+            {{ p.estado ? 'Activo' : 'Inactivo' }}
         </td>
+        <td>
+            <button class="editar" (click)="editar(p.id)">Editar</button>
+            <button
+              class="eliminar"
+              [ngClass]="p.estado ? 'activo' : 'inactivo'"
+              (click)="eliminar(p.id)"
+            >
+            Eliminar
+            </button>
+        </td>
+
       </tr>
       <tr *ngIf="productosPaginados.length === 0">
         <td colspan="6">No hay productos</td>

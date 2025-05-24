@@ -1,0 +1,64 @@
+.dashboard-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #089151;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo-container img {
+  max-width: 150px;
+  height: auto;
+  user-select: none;
+}
+
+.dashboard-container h1 {
+  font-weight: 800;
+  font-size: 2.6rem;
+  margin-bottom: 30px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.dashboard-button {
+  background-color: #fddb0a;
+  border: none;
+  border-radius: 14px;
+  padding: 30px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  user-select: none;
+}
+
+.dashboard-button:hover {
+  background-color: #e6c806;
+}
+
+.icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  user-select: none;
+}
+
+.label {
+  user-select: none;
+}

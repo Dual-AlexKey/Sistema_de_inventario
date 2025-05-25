@@ -1,116 +1,189 @@
 <div class="container">
+  <header class="form-header">
+  <button (click)="cancelar()" aria-label="Volver" class="btn-volver">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+  <img src="/logo.png" alt="Logo Empresa" class="logo" />
   <h2>{{ editMode ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
+  <div class="spacer"></div> <!-- Para equilibrar el espacio a la derecha -->
+</header>
+  <!-- Resumen de errores -->
+  <div
+    *ngIf="form?.invalid && (form?.touched || form?.dirty)"
+    class="error-summary"
+    role="alert"
+    aria-live="assertive"
+  >
+<div
+  *ngIf="form?.invalid && (form?.touched || form?.dirty)"
+  class="error-summary typing-error animate"
+  role="alert"
+  aria-live="assertive"
+>
+  <p>Por favor, corrige los errores antes de enviar el formulario.</p>
+</div>
+  </div>
 
   <form #form="ngForm" (ngSubmit)="guardar(form)" novalidate>
-    <label>
-      Nombre:
-      <input
-        type="text"
-        name="nombre"
-        [(ngModel)]="producto.nombre"
-        #nombre="ngModel"
-        required
-        minlength="3"
-        />
-      <small class="error-message" *ngIf="nombre.invalid && nombre.touched">
-        <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
-        <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
-      </small>
-    </label>
+    <label for="nombre">Nombre:</label>
+    <input
+      id="nombre"
+      type="text"
+      name="nombre"
+      [(ngModel)]="producto.nombre"
+      #nombre="ngModel"
+      required
+      minlength="3"
+      [attr.aria-invalid]="nombre.invalid && nombre.touched ? 'true' : null"
+      aria-describedby="nombre-error"
+    />
+    <small
+      id="nombre-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(nombre.invalid && nombre.touched) ? 'visible' : 'hidden'"
+    >
+      <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+      <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
+    </small>
 
-    <label>
-      Categoría:
-      <select
-        name="categoria"
-        [(ngModel)]="categoriaSeleccionada"
-        (change)="cargarSubcategorias()"
-        #categoria="ngModel"
-        required
-      >
-        <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
-      </select>
-      <small class="error-message" *ngIf="categoria.invalid && categoria.touched">
-        Seleccione una categoría.
-      </small>
-    </label>
+    <label for="categoria">Categoría:</label>
+    <select
+      id="categoria"
+      name="categoria"
+      [(ngModel)]="categoriaSeleccionada"
+      (change)="cargarSubcategorias()"
+      #categoria="ngModel"
+      required
+      [attr.aria-invalid]="categoria.invalid && categoria.touched ? 'true' : null"
+      aria-describedby="categoria-error"
+    >
+      <option value="" disabled>Seleccione una categoría</option>
+      <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+    </select>
+    <small
+      id="categoria-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(categoria.invalid && categoria.touched) ? 'visible' : 'hidden'"
+    >
+      Seleccione una categoría.
+    </small>
 
-    <label>
-      Subcategoría:
-      <select
-        name="subcategoria"
-        [(ngModel)]="producto.subcategorias_id"
-        #subcategoria="ngModel"
-        required
-      >
-        <option *ngFor="let sub of subcategorias" [value]="sub.id">{{ sub.nombre }}</option>
-      </select>
-      <small class="error-message" *ngIf="subcategoria.invalid && subcategoria.touched">
-        Seleccione una subcategoría.
-      </small>
-    </label>
+    <label for="subcategoria">Subcategoría:</label>
+    <select
+      id="subcategoria"
+      name="subcategoria"
+      [(ngModel)]="producto.subcategorias_id"
+      #subcategoria="ngModel"
+      required
+      [attr.aria-invalid]="subcategoria.invalid && subcategoria.touched ? 'true' : null"
+      aria-describedby="subcategoria-error"
+    >
+      <option value="" disabled>Seleccione una subcategoría</option>
+      <option *ngFor="let sub of subcategorias" [value]="sub.id">{{ sub.nombre }}</option>
+    </select>
+    <small
+      id="subcategoria-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(subcategoria.invalid && subcategoria.touched) ? 'visible' : 'hidden'"
+    >
+      Seleccione una subcategoría.
+    </small>
 
-    <label>
-      Stock:
-      <input
-        type="number"
-        name="stock"
-        [(ngModel)]="producto.stock"
-        #stock="ngModel"
-        required
-        min="0"
-      />
-      <small class="error-message" *ngIf="stock.invalid && stock.touched">
-        <span *ngIf="stock.errors?.['required']">El stock es obligatorio.</span>
-        <span *ngIf="stock.errors?.['min']">El stock no puede ser negativo.</span>
-      </small>
-    </label>
+    <label for="stock">Stock:</label>
+    <input
+      id="stock"
+      type="number"
+      name="stock"
+      [(ngModel)]="producto.stock"
+      #stock="ngModel"
+      required
+      min="0"
+      step="1"
+      pattern="[0-9]*"
+      [attr.aria-invalid]="stock.invalid && stock.touched ? 'true' : null"
+      aria-describedby="stock-error"
+    />
+    <small
+      id="stock-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(stock.invalid && stock.touched) ? 'visible' : 'hidden'"
+    >
+      <span *ngIf="stock.errors?.['required']">El stock es obligatorio.</span>
+      <span *ngIf="stock.errors?.['min']">El stock no puede ser negativo.</span>
+      <span *ngIf="stock.errors?.['pattern']">Solo números enteros permitidos.</span>
+    </small>
 
-    <label>
-      Precio unitario:
-      <input
-        type="number"
-        name="precio_unitario"
-        [(ngModel)]="producto.precio_unitario"
-        #precio="ngModel"
-        required
-        min="0"
-        step="0.01"
-      />
-      <small class="error-message" *ngIf="precio.invalid && precio.touched">
-        <span *ngIf="precio.errors?.['required']">El precio es obligatorio.</span>
-        <span *ngIf="precio.errors?.['min']">El precio no puede ser negativo.</span>
-      </small>
-    </label>
+    <label for="precio_unitario">Precio unitario:</label>
+    <input
+      id="precio_unitario"
+      type="number"
+      name="precio_unitario"
+      [(ngModel)]="producto.precio_unitario"
+      #precio="ngModel"
+      required
+      min="0"
+      step="0.01"
+      [attr.aria-invalid]="precio.invalid && precio.touched ? 'true' : null"
+      aria-describedby="precio-error"
+    />
+    <small
+      id="precio-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(precio.invalid && precio.touched) ? 'visible' : 'hidden'"
+    >
+      <span *ngIf="precio.errors?.['required']">El precio es obligatorio.</span>
+      <span *ngIf="precio.errors?.['min']">El precio no puede ser negativo.</span>
+    </small>
 
-    <label>
-      Unidad de medida:
-      <input
-        type="text"
-        name="unidad_medida"
-        [(ngModel)]="producto.unidad_medida"
-        #unidadMedida="ngModel"
-        required
-      />
-      <small class="error-message" *ngIf="unidadMedida.invalid && unidadMedida.touched">
-        La unidad de medida es obligatoria.
-      </small>
-    </label>
+    <label for="unidad_medida">Unidad de medida:</label>
+    <input
+      id="unidad_medida"
+      type="text"
+      name="unidad_medida"
+      [(ngModel)]="producto.unidad_medida"
+      #unidadMedida="ngModel"
+      required
+      [attr.aria-invalid]="unidadMedida.invalid && unidadMedida.touched ? 'true' : null"
+      aria-describedby="unidad-error"
+    />
+    <small
+      id="unidad-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(unidadMedida.invalid && unidadMedida.touched) ? 'visible' : 'hidden'"
+    >
+      La unidad de medida es obligatoria.
+    </small>
 
-    <label>
-      Estado:
-      <select
-        name="estado"
-        [(ngModel)]="producto.estado"
-        #estado="ngModel"
-        required
-      >
-        <option [ngValue]="true">Activo</option>
-        <option [ngValue]="false">Inactivo</option>
-      </select>
-      <small class="error-message" *ngIf="estado.invalid && estado.touched">
-        Seleccione un estado.
-      </small>
-    </label>
+    <label for="estado">Estado:</label>
+    <select
+      id="estado"
+      name="estado"
+      [(ngModel)]="producto.estado"
+      #estado="ngModel"
+      required
+      [attr.aria-invalid]="estado.invalid && estado.touched ? 'true' : null"
+      aria-describedby="estado-error"
+    >
+      <option [ngValue]="true">Activo</option>
+      <option [ngValue]="false">Inactivo</option>
+    </select>
+    <small
+      id="estado-error"
+      role="alert"
+      class="error-message"
+      [@errorState]="(estado.invalid && estado.touched) ? 'visible' : 'hidden'"
+    >
+      Seleccione un estado.
+    </small>
 
     <div class="buttons">
       <button type="submit" [disabled]="form.invalid">

@@ -10,19 +10,40 @@
     <h1>Gestion de Productos</h1>
   </header>
   <div class="actions">
+
+
     <input
       type="text"
       placeholder="Buscar producto..."
       [(ngModel)]="searchTerm"
       (input)="filtrarProductos()"
     />
+    <select
+    [(ngModel)]="categoriaSeleccionada"
+    (change)="filtrarPorCategoria()"
+  >
+      <option [value]="''">Todas las categorías</option>
+      <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+  </select>
+
+  <label for="itemsPorPagina">Mostrar:</label>
+<select id="itemsPorPagina" [(ngModel)]="itemsPorPagina" (change)="cambiarPagina(1); filtrarProductos()">
+  <option [value]="5">5</option>
+  <option [value]="10">10</option>
+  <option [value]="20">20</option>
+  <option [value]="50">50</option>
+</select>
+
     <button (click)="nuevo()">Agregar producto</button>
+
+
   </div>
 
   <table>
     <thead>
       <tr>
         <th>Nombre</th>
+        <th>Categoría</th>
         <th>Stock</th>
         <th>Precio</th>
         <th>Unidad</th>
@@ -31,10 +52,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of productosPaginados">
+      <tr *ngFor="let p of productosPaginados" [@listAnimation] [attr.data-id]="p.id">
         <td>{{ p.nombre }}</td>
+        <td>{{ obtenerNombreCategoriaPorSubcategoria(p.subcategorias_id) }}</td>
+
+
         <td>{{ p.stock }}</td>
-        <td>{{ p.precio_unitario | currency:'USD' }}</td>
+        <td>{{ p.precio_unitario | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</td>
         <td>{{ p.unidad_medida }}</td>
         <td [ngClass]="p.estado ? 'estado-activo' : 'estado-inactivo'">
             {{ p.estado ? 'Activo' : 'Inactivo' }}
@@ -42,17 +66,18 @@
         <td>
             <button class="editar" (click)="editar(p.id)">Editar</button>
             <button
-              class="eliminar"
-              [ngClass]="p.estado ? 'activo' : 'inactivo'"
-              (click)="eliminar(p.id)"
+            class="eliminar"
+            [ngClass]="p.estado ? 'activo' : 'inactivo'"
+            (click)="eliminar(p.id, $event)"
             >
-            Eliminar
+              Eliminar
             </button>
         </td>
 
       </tr>
       <tr *ngIf="productosPaginados.length === 0">
-        <td colspan="6">No hay productos</td>
+
+        <td colspan="7">No hay productos</td>
       </tr>
     </tbody>
   </table>

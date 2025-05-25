@@ -17,39 +17,65 @@ export class ProveedoresListComponent implements OnInit {
   private router = inject(Router); // inyecta Router aquí
 
   proveedores: Proveedor[] = [];
+
+  proveedoresFiltrados: Proveedor[] = [];
   searchTerm = '';
+  paginaActual = 1;
+  itemsPorPagina = 10;
 
   ngOnInit(): void {
     this.cargarProveedores();
   }
 
-  cargarProveedores() {
-    this.proveedoresService.getProveedores().subscribe({
-      next: (data) => (this.proveedores = data),
-      error: (e) => console.error(e),
+ cargarProveedores() {
+    this.proveedoresService.getProveedores().subscribe((data) => {
+      this.proveedores = data;
+      this.filtrarProveedores();
     });
   }
 
+
   filtrarProveedores() {
-    // Puedes implementar filtrado local o llamar al backend con query params
-    if (!this.searchTerm) {
-      this.cargarProveedores();
-      return;
-    }
-    this.proveedores = this.proveedores.filter((p) =>
-      p.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    const term = this.searchTerm.toLowerCase();
+    this.proveedoresFiltrados = this.proveedores.filter(p =>
+      p.nombre.toLowerCase().includes(term) ||
+      p.ruc.toLowerCase().includes(term) ||
+      p.direccion.toLowerCase().includes(term)
     );
+    this.paginaActual = 1;
   }
 
+
   eliminar(id: number) {
-    if (confirm('¿Desea eliminar este proveedor?')) {
-      this.proveedoresService.deleteProveedor(id).subscribe(() => {
-        this.cargarProveedores();
-      });
-    }
+    if (!confirm('¿Eliminar este proveedor?')) return;
+    this.proveedoresService.deleteProveedor(id).subscribe(() => {
+      this.proveedores = this.proveedores.filter(p => p.id !== id);
+      this.filtrarProveedores();
+    });
+  }
+
+  cambiarPagina(n: number) {
+    this.paginaActual = n;
+  }
+editar(id: number) {
+  this.router.navigate(['/inventory/proveedores/editar', id]);
+}
+
+  nuevo() {
+    this.router.navigate(['/inventory/proveedores/nuevo']);
   }
 
   volver() {
-    this.router.navigate(['/']); // o la ruta principal que uses
+    this.router.navigate(['/']);
   }
+
+  get proveedoresPaginados(): Proveedor[] {
+    const start = (this.paginaActual - 1) * this.itemsPorPagina;
+    return this.proveedoresFiltrados.slice(start, start + this.itemsPorPagina);
+  }
+
+  get totalPaginas(): number {
+    return Math.ceil(this.proveedoresFiltrados.length / this.itemsPorPagina);
+  }
+
 }

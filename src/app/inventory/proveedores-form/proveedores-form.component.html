@@ -1,66 +1,120 @@
 <div class="container">
+  <header class="form-header">
+  <button (click)="cancelar()" aria-label="Volver" class="btn-volver">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+  <img src="/logo.png" alt="Logo Empresa" class="logo" />
   <h2>{{ editMode ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+  <div class="spacer"></div>
+</header>
+
+<div
+    *ngIf="form?.invalid && (form?.touched || form?.dirty)"
+    class="error-summary typing-error animate"
+    role="alert"
+    aria-live="assertive"
+  >
+    <p>Por favor, corrige los errores antes de enviar el formulario.</p>
+  </div>
 
   <form #form="ngForm" (ngSubmit)="guardar(form)" novalidate>
-    <label>
+    <label for="nombre">
       Nombre:
       <input
-        type="text"
-        name="nombre"
-        [(ngModel)]="proveedor.nombre"
-        #nombre="ngModel"
-        required
-        minlength="3"
-      />
-      <small class="error-message" *ngIf="nombre.invalid && nombre.touched">
-        <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
-        <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
-      </small>
+      id="nombre"
+      type="text"
+      name="nombre"
+      [(ngModel)]="proveedor.nombre"
+      #nombre="ngModel"
+      required
+      minlength="3"
+      [attr.aria-invalid]="nombre.invalid && nombre.touched ? 'true' : null"
+      aria-describedby="nombre-error"
+    />
+    <small
+      id="nombre-error"
+      role="alert"
+      class="error-message"
+      *ngIf="nombre.invalid && nombre.touched"
+    >
+      <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+      <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
+    </small>
     </label>
 
-    <label>
+    <label for="ruc">
       RUC:
       <input
-        type="text"
-        name="ruc"
-        [(ngModel)]="proveedor.ruc"
-        #ruc="ngModel"
-        required
-        pattern="^[0-9]{11}$"
-      />
-      <small class="error-message" *ngIf="ruc.invalid && ruc.touched">
-        <span *ngIf="ruc.errors?.['required']">El RUC es obligatorio.</span>
-        <span *ngIf="ruc.errors?.['pattern']"
-          >El RUC debe contener 11 dígitos numéricos.</span
-        >
-      </small>
+      id="ruc"
+      type="text"
+      name="ruc"
+      [(ngModel)]="proveedor.ruc"
+      #ruc="ngModel"
+      required
+      pattern="^[0-9]{11}$"
+      [attr.aria-invalid]="ruc.invalid && ruc.touched ? 'true' : null"
+      aria-describedby="ruc-error"
+    />
+    <small
+      id="ruc-error"
+      role="alert"
+      class="error-message"
+      *ngIf="ruc.invalid && ruc.touched"
+    >
+      <span *ngIf="ruc.errors?.['required']">El RUC es obligatorio.</span>
+      <span *ngIf="ruc.errors?.['pattern']">El RUC debe contener 11 dígitos numéricos.</span>
+    </small>
     </label>
 
-    <label>
+    <label for="direccion">
       Dirección:
       <input
-        type="text"
-        name="direccion"
-        [(ngModel)]="proveedor.direccion"
-        #direccion="ngModel"
-        required
-        minlength="5"
-      />
-      <small class="error-message" *ngIf="direccion.invalid && direccion.touched">
-        <span *ngIf="direccion.errors?.['required']">La dirección es obligatoria.</span>
-        <span *ngIf="direccion.errors?.['minlength']">Mínimo 5 caracteres.</span>
-      </small>
+      id="direccion"
+      type="text"
+      name="direccion"
+      [(ngModel)]="proveedor.direccion"
+      #direccion="ngModel"
+      required
+      minlength="5"
+      [attr.aria-invalid]="direccion.invalid && direccion.touched ? 'true' : null"
+      aria-describedby="direccion-error"
+    />
+    <small
+      id="direccion-error"
+      role="alert"
+      class="error-message"
+      *ngIf="direccion.invalid && direccion.touched"
+    >
+      <span *ngIf="direccion.errors?.['required']">La dirección es obligatoria.</span>
+      <span *ngIf="direccion.errors?.['minlength']">Mínimo 5 caracteres.</span>
+    </small>
     </label>
 
-    <label>
+    <label for="estado">
       Estado:
-      <select name="estado" [(ngModel)]="proveedor.estado" #estado="ngModel" required>
-        <option [ngValue]="true">Activo</option>
-        <option [ngValue]="false">Inactivo</option>
-      </select>
-      <small class="error-message" *ngIf="estado.invalid && estado.touched">
-        Seleccione un estado.
-      </small>
+      <select
+      id="estado"
+      name="estado"
+      [(ngModel)]="proveedor.estado"
+      #estado="ngModel"
+      required
+      [attr.aria-invalid]="estado.invalid && estado.touched ? 'true' : null"
+      aria-describedby="estado-error"
+    >
+      <option [ngValue]="true">Activo</option>
+      <option [ngValue]="false">Inactivo</option>
+    </select>
+    <small
+      id="estado-error"
+      role="alert"
+      class="error-message"
+      *ngIf="estado.invalid && estado.touched"
+    >
+      Seleccione un estado.
+    </small>
     </label>
 
     <div class="buttons">

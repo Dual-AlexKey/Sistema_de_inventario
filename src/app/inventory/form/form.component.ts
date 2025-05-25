@@ -3,7 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService, Producto } from '../../services/producto.service';
 import { CategoriaService, Categoria, Subcategoria } from '../../services/categoria.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm,NgModel } from '@angular/forms';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-inventory-form',
@@ -11,6 +18,24 @@ import { FormsModule, NgForm } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
+
+  animations: [
+    trigger('errorState', [
+      state('visible', style({
+        opacity: 1,
+        maxHeight: '40px',
+        marginTop: '4px',
+        padding: '*',
+      })),
+      state('hidden', style({
+        opacity: 0,
+        maxHeight: '0px',
+        marginTop: '0px',
+        padding: '0px',
+      })),
+      transition('visible <=> hidden', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class FormComponent implements OnInit {
   private productoService = inject(ProductoService);
@@ -111,5 +136,14 @@ ngOnInit(): void {
   cancelar() {
     this.router.navigate(['/inventory/productos']);
   }
+   // Método para controlar el estado de la animación de error
+  getErrorState(control: NgModel | null): 'visible' | 'hidden' {
+    return (control?.invalid && control?.touched) ? 'visible' : 'hidden';
+  }
+
+
+
+
+
 }
 

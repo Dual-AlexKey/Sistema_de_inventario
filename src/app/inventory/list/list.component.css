@@ -59,27 +59,97 @@
 /* Acciones: búsqueda + botón agregar */
 .actions {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 30px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
 }
+
 
 /* Input búsqueda */
 .actions input[type="text"] {
   flex-grow: 1;
-  padding: 12px 18px;
+  padding: 10px 14px;
   font-size: 1rem;
   border: 2px solid #ddd;
   border-radius: 12px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #333;
 }
 
 .actions input[type="text"]:focus {
   border-color: #089151;
   outline: none;
-  box-shadow: 0 0 10px #089151aa;
+  box-shadow: 0 0 8px #089151aa;
 }
+
+
+
+/* Select items por página */
+.actions select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  width: 140px; /* tamaño fijo para que quede ordenado */
+}
+
+.actions select:focus {
+  border-color: #089151;
+  outline: none;
+  box-shadow: 0 0 8px #089151aa;
+}
+
+/* Botón agregar */
+.actions button {
+  background-color: #089151;
+  color: white;
+  padding: 10px 26px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.actions button:hover {
+  background-color: #066a3a;
+}
+
+/* Animación de eliminación de fila */
+@keyframes eliminarProducto {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+    height: auto;
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+}
+
+tr.eliminando {
+  height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  transition: all 0.8s ease;
+  overflow: hidden;
+}
+
 
 /* Botón agregar */
 button, .btn.agregar {
@@ -112,6 +182,10 @@ table {
   color: #444;
 }
 
+table tbody tr {
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
 /* Cabecera */
 thead th {
   background-color: #089151;

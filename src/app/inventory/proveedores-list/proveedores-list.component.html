@@ -1,0 +1,56 @@
+<div class="container">
+  <header class="header-top">
+    <button (click)="volver()" aria-label="Volver" class="btn-volver">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <img src="/logo.png" alt="Logo Empresa" class="logo" />
+    <h1>Proveedores</h1>
+  </header>
+
+  <div class="actions">
+    <input
+      type="text"
+      placeholder="Buscar proveedor..."
+      [(ngModel)]="searchTerm"
+      (input)="filtrarProveedores()"
+    />
+    <a routerLink="/inventory/proveedores/nuevo" class="btn agregar">Agregar proveedor</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>RUC</th>
+        <th>Dirección</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of proveedores">
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.ruc }}</td>
+        <td>{{ p.direccion }}</td>
+        <td [ngClass]="p.estado ? 'estado-activo' : 'estado-inactivo'">
+          {{ p.estado ? 'Activo' : 'Inactivo' }}
+        </td>
+        <td>
+          <a
+            [routerLink]="['/inventory/proveedores/editar', p.id]"
+            class="editar btn"
+            role="button"
+            >Editar</a
+          >
+          <button (click)="eliminar(p.id!)" class="eliminar btn">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="proveedores.length === 0">
+        <td colspan="5">No hay proveedores</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

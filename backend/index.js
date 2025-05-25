@@ -151,5 +151,100 @@ app.delete('/api/productos/:id', async (req, res) => {
   }
 });
 
+
+
+
+
+// Obtener todos los proveedores
+app.get('/api/proveedores', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM proveedores');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Obtener un proveedor por id
+app.get('/api/proveedores/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query('SELECT * FROM proveedores WHERE id = ?', [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Proveedor no encontrado' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Crear un nuevo proveedor
+app.post('/api/proveedores', async (req, res) => {
+  const { nombre, ruc, direccion, estado } = req.body;
+  try {
+    const [result] = await pool.query(
+      `INSERT INTO proveedores (nombre, ruc, direccion, estado) VALUES (?, ?, ?, ?)`,
+      [nombre, ruc, direccion, estado]
+    );
+    res.status(201).json({ id: result.insertId, ...req.body });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Actualizar un proveedor
+app.put('/api/proveedores/:id', async (req, res) => {
+  const { id } = req.params;
+  const { nombre, ruc, direccion, estado } = req.body;
+  try {
+    const [existing] = await pool.query('SELECT * FROM proveedores WHERE id = ?', [id]);
+    if (existing.length === 0) {
+      return res.status(404).json({ error: 'Proveedor no encontrado' });
+    }
+
+    await pool.query(
+      `UPDATE proveedores SET nombre = ?, ruc = ?, direccion = ?, estado = ? WHERE id = ?`,
+      [nombre, ruc, direccion, estado, id]
+    );
+
+    res.json({ message: 'Proveedor actualizado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Eliminar un proveedor
+app.delete('/api/proveedores/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM proveedores WHERE id = ?', [id]);
+    res.json({ message: 'Proveedor eliminado' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`API corriendo en http://localhost:${port}`));
+
+

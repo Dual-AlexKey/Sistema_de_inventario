@@ -56,12 +56,15 @@ export class ListComponent implements OnInit {
   }
 
   editar(id: number) {
-    this.router.navigate(['/productos/editar', id]);
+    this.router.navigate(['/inventory/productos/editar', id]);
   }
 
   nuevo() {
-    this.router.navigate(['/productos/nuevo']);
+    this.router.navigate(['/inventory/productos/nuevo']);
   }
+  volver() {
+  this.router.navigate(['/']); // O la ruta que uses para la página principal
+}
 
   get productosPaginados(): Producto[] {
     const start = (this.paginaActual - 1) * this.itemsPorPagina;

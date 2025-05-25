@@ -1,0 +1,73 @@
+<div class="container">
+  <h2>{{ editMode ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+
+  <form #form="ngForm" (ngSubmit)="guardar(form)" novalidate>
+    <label>
+      Nombre:
+      <input
+        type="text"
+        name="nombre"
+        [(ngModel)]="proveedor.nombre"
+        #nombre="ngModel"
+        required
+        minlength="3"
+      />
+      <small class="error-message" *ngIf="nombre.invalid && nombre.touched">
+        <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+        <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</span>
+      </small>
+    </label>
+
+    <label>
+      RUC:
+      <input
+        type="text"
+        name="ruc"
+        [(ngModel)]="proveedor.ruc"
+        #ruc="ngModel"
+        required
+        pattern="^[0-9]{11}$"
+      />
+      <small class="error-message" *ngIf="ruc.invalid && ruc.touched">
+        <span *ngIf="ruc.errors?.['required']">El RUC es obligatorio.</span>
+        <span *ngIf="ruc.errors?.['pattern']"
+          >El RUC debe contener 11 dígitos numéricos.</span
+        >
+      </small>
+    </label>
+
+    <label>
+      Dirección:
+      <input
+        type="text"
+        name="direccion"
+        [(ngModel)]="proveedor.direccion"
+        #direccion="ngModel"
+        required
+        minlength="5"
+      />
+      <small class="error-message" *ngIf="direccion.invalid && direccion.touched">
+        <span *ngIf="direccion.errors?.['required']">La dirección es obligatoria.</span>
+        <span *ngIf="direccion.errors?.['minlength']">Mínimo 5 caracteres.</span>
+      </small>
+    </label>
+
+    <label>
+      Estado:
+      <select name="estado" [(ngModel)]="proveedor.estado" #estado="ngModel" required>
+        <option [ngValue]="true">Activo</option>
+        <option [ngValue]="false">Inactivo</option>
+      </select>
+      <small class="error-message" *ngIf="estado.invalid && estado.touched">
+        Seleccione un estado.
+      </small>
+    </label>
+
+    <div class="buttons">
+      <button type="submit" [disabled]="form.invalid">
+        {{ editMode ? 'Actualizar' : 'Agregar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

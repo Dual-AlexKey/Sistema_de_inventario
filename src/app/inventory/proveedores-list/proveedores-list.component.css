@@ -82,7 +82,7 @@
 }
 
 /* Botón agregar */
-button, .btn.agregar {
+.btn.agregar {
   background-color: #fddb0a;
   color: #089151;
   font-weight: 700;
@@ -95,11 +95,9 @@ button, .btn.agregar {
   justify-content: center;
   user-select: none;
   transition: background-color 0.3s ease;
-  border: none;
-  cursor: pointer;
 }
 
-button:hover, .btn.agregar:hover {
+.btn.agregar:hover {
   background-color: #e6c806;
 }
 
@@ -156,7 +154,7 @@ tbody td {
 }
 
 /* Botones editar y eliminar */
-button.editar, button.eliminar {
+.btn.editar, .btn.eliminar {
   padding: 8px 18px;
   font-size: 0.9rem;
   border-radius: 10px;
@@ -165,27 +163,27 @@ button.editar, button.eliminar {
   user-select: none;
   transition: background-color 0.3s ease;
   color: #fff;
+}
+
+.btn.editar {
+  background-color: #089151;
   margin-right: 12px;
 }
 
-button.editar {
-  background-color: #089151;
-}
-
-button.editar:hover {
+.btn.editar:hover {
   background-color: #066a3a;
 }
 
-button.eliminar {
+.btn.eliminar {
   background-color: #e74c3c;
 }
 
-button.eliminar:hover {
+.btn.eliminar:hover {
   background-color: #b63126;
 }
 
 /* Mensaje cuando no hay datos */
-tbody tr td[colspan="6"] {
+tbody tr td[colspan="5"] {
   text-align: center;
   font-style: italic;
   color: #666;
@@ -209,7 +207,7 @@ tbody tr td[colspan="6"] {
     padding: 12px 10px;
     font-size: 0.9rem;
   }
-  button.agregar, button.editar, button.eliminar {
+  .btn.agregar, .btn.editar, .btn.eliminar {
     width: 100%;
     margin: 0 0 10px 0;
     text-align: center;

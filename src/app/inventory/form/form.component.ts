@@ -96,20 +96,20 @@ ngOnInit(): void {
         .updateProducto(this.productoId, this.producto as Omit<Producto, 'id'>)
         .subscribe(() => {
           alert('Producto actualizado!');
-          this.router.navigate(['/productos']);
+          this.router.navigate(['/inventory/productos']);
         });
     } else {
       this.productoService
         .addProducto(this.producto as Omit<Producto, 'id'>)
         .subscribe(() => {
           alert('Producto agregado!');
-          this.router.navigate(['/productos']);
+          this.router.navigate(['/inventory/productos']);
         });
     }
   }
 
   cancelar() {
-    this.router.navigate(['/productos']);
+    this.router.navigate(['/inventory/productos']);
   }
 }
 

@@ -1,153 +1,175 @@
-/* form.component.css */
-
-/* Contenedor principal */
+/* Contenedor del formulario */
 .container {
   max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem 2.5rem;
-  background-color: #ffffff; /* Fondo blanco */
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(8, 145, 81, 0.2); /* sombra verde suave */
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(8, 145, 81, 0.15);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #264d27;
+  border: 2px solid #089151;
 }
 
-/* Título del formulario */
-h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #089151; /* Verde oscuro */
+/* Título */
+.container h2 {
+  font-size: 2rem;
   font-weight: 700;
-  font-size: 1.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
+  color: #089151;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
 }
 
-/* Formulario - Layout en columna con separación */
+/* Formulario: estructura vertical con buen espacio */
 form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
-/* Labels para inputs */
+/* Label: texto y espacio para inputs */
 label {
   display: flex;
   flex-direction: column;
   font-weight: 600;
-  color: #089151; /* Verde oscuro */
-  font-size: 1rem;
-  user-select: none;
+  font-size: 1.05rem;
+  color: #0c2f12;
 }
 
-/* Inputs y selects estilos base */
+/* Inputs y selects con borde verde sutil y fondo blanco */
 input[type="text"],
 input[type="number"],
 select {
-  margin-top: 0.5rem;
-  padding: 0.65rem 1rem;
+  margin-top: 8px;
+  padding: 12px 16px;
   font-size: 1rem;
-  border: 2px solid #fddb0a; /* borde amarillo */
-  border-radius: 6px;
-  background-color: #ffffff;
+  border: 2px solid #089151;
+  border-radius: 12px;
+  background-color: #f9fff8;
+  color: #184d2a;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #333333;
 }
 
-/* Enfoque en inputs/selects */
+/* Focus en inputs y selects */
 input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
-  border-color: #089151; /* verde más oscuro en foco */
   outline: none;
-  box-shadow: 0 0 8px #089151aa;
+  border-color: #fddb0a;
+  box-shadow: 0 0 8px #fddb0aaa;
+  background-color: #fffde3;
 }
 
-/* Contenedor de botones */
+/* Estilo cuando el input es inválido y está tocado */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #d93025 !important;
+  animation: shakeBorder 0.3s ease;
+  box-shadow: 0 0 8px #d93025aa !important;
+  background-color: #ffe6e6;
+}
+
+/* Animación sutil para borde en error */
+@keyframes shakeBorder {
+  0%, 100% {
+    border-color: #d93025;
+    box-shadow: 0 0 8px #d93025aa;
+  }
+  50% {
+    border-color: #a12722;
+    box-shadow: 0 0 12px #a12722cc;
+  }
+}
+
+/* Mensajes de error: color rojo oscuro y legible, animación fade */
+.error-message {
+  margin-top: 6px;
+  color: #d93025;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+/* Solo mostrar error cuando el mensaje está visible */
+.error-message.ng-star-inserted {
+  opacity: 1;
+}
+
+/* Animación fadeIn para los mensajes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Botones */
 .buttons {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-/* Botones estilos base */
-button {
-  padding: 0.75rem 1.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.15s ease;
-  box-shadow: 0 3px 6px rgba(8, 145, 81, 0.3);
-  user-select: none;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 30px;
 }
 
 /* Botón submit */
 button[type="submit"] {
-  background-color: #089151; /* verde */
-  color: #ffffff;
-  border: 2px solid #089151;
+  background-color: #089151;
+  color: white;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 14px 36px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.25s ease;
+  box-shadow: 0 5px 15px rgba(8, 145, 81, 0.25);
 }
 
 button[type="submit"]:hover:not(:disabled) {
-  background-color: #06743d; /* verde más oscuro */
-  border-color: #06743d;
-  transform: translateY(-2px);
+  background-color: #06743c;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(6, 116, 60, 0.4);
 }
 
 button[type="submit"]:disabled {
-  background-color: #fddb0a; /* amarillo brillante para disabled */
-  border-color: #fddb0a;
+  background-color: #a1c9a7;
   cursor: not-allowed;
   box-shadow: none;
-  color: #555;
+  color: #e0e0e0;
 }
 
 /* Botón cancelar */
 button[type="button"] {
-  background-color: #fddb0a; /* amarillo */
-  color: #089151; /* verde oscuro */
-  border: 2px solid #fddb0a;
+  background-color: #fddb0a;
+  color: #4f4a00;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 14px 36px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(253, 219, 10, 0.3);
+  transition: background-color 0.3s ease, transform 0.25s ease;
 }
 
 button[type="button"]:hover {
-  background-color: #d4b300; /* amarillo oscuro */
-  border-color: #d4b300;
-  color: #ffffff;
-  transform: translateY(-2px);
+  background-color: #d4bb00;
+  transform: scale(1.05);
+  box-shadow: 0 7px 20px rgba(212, 187, 0, 0.5);
 }
 
-/* Mensajes de error o validación */
-input.ng-invalid.ng-touched,
-select.ng-invalid.ng-touched {
-  border-color: #e63946; /* rojo fuerte para error */
-  box-shadow: 0 0 6px #e6394622;
-}
-
-/* Mensaje de error (puedes usar un <small> o <span>) */
-.error-message {
-  color: #e63946;
-  font-size: 0.875rem;
-  margin-top: 0.3rem;
-  font-weight: 600;
-  user-select: none;
-}
-
-/* Responsive: ajustes para pantallas pequeñas */
+/* Responsive: botones apilados en móvil */
 @media (max-width: 480px) {
   .container {
-    padding: 1.5rem 1.5rem;
-  }
-  form {
-    gap: 1.2rem;
+    padding: 25px 30px;
   }
   .buttons {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 18px;
   }
-  button {
+  button[type="submit"],
+  button[type="button"] {
     width: 100%;
-    box-sizing: border-box;
   }
 }

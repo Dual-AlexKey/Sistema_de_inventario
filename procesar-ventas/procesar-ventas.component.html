@@ -1,0 +1,76 @@
+<div class="container">
+  <header class="form-header">
+    <button (click)="volver()" aria-label="Volver" class="btn-volver">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <img src="/logo.png" alt="Logo Empresa" class="logo" />
+    <h2>Procesar Ventas</h2>
+    <div class="spacer"></div>
+  </header>
+
+  <form (submit)="filtrar(); $event.preventDefault()">
+  <div>
+    <label for="buscar">Buscar orden:</label>
+    <input
+      id="buscar"
+      type="text"
+      placeholder="Buscar orden..."
+      [(ngModel)]="searchTerm"
+      name="searchTerm"
+    />
+
+  </div>
+
+  <div>
+    <label for="mostrar">Mostrar:</label>
+    <select id="mostrar" [(ngModel)]="itemsPorPagina" name="itemsPorPagina" (change)="cambiarPagina(1); filtrar()">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+    </select>
+  </div>
+  <button type="submit">Buscar</button>
+</form>
+
+
+  <div style="overflow-x:auto; margin-top: 20px;">
+    <table style="width:100%;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orden of ordenesPaginadas">
+          <td>{{ orden.id }}</td>
+          <td>{{ getNombreProducto(orden.productos_id) }}</td>
+          <td>{{ orden.cantidad }}</td>
+          <td>{{ orden.precio_unitario }}</td>
+          <td>{{ orden.observaciones }}</td>
+        </tr>
+        <tr *ngIf="ordenesPaginadas.length === 0">
+          <td colspan="5">No se encontraron órdenes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="buttons" *ngIf="totalPaginas > 1">
+    <button
+      type="button"
+      *ngFor="let p of [].constructor(totalPaginas); let i = index"
+      (click)="cambiarPagina(i + 1)"
+      [disabled]="paginaActual === i + 1"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>

@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_key';
 
 const app = express();
 
@@ -112,10 +115,75 @@ app.get('/api/subcategorias/id/:id', async (req, res) => {
 
 
 
+// POST /api/login
+app.post('/api/login', async (req, res) => {
+  const { correo, contrasena } = req.body;
+
+  if (!correo || !contrasena) {
+    return res.status(400).json({ error: 'Correo y contraseña son requeridos' });
+  }
+
+  try {
+    const [users] = await pool.query('SELECT * FROM usuario WHERE correo = ?', [correo]);
+
+    if (users.length === 0) {
+      return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+
+    const user = users[0];
+
+    // Compara la contraseña con la almacenada (suponiendo que está hasheada)
+    const validPassword = await bcrypt.compare(contrasena, user.contrasena);
+
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Contraseña incorrecta' });
+    }
+
+    // Generar token JWT (puedes incluir datos que necesites)
+    const token = jwt.sign(
+      {
+        id: user.id,
+        nombre: user.nombre,
+        correo: user.correo,
+        cargos_id: user.cargos_id,
+      },
+      JWT_SECRET,
+      { expiresIn: '8h' }
+    );
+
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 
 
 
 
+app.post('/api/register', async (req, res) => {
+  try {
+    const { nombre, correo, contrasena, cargos_id } = req.body;
+
+    if (!nombre || !correo || !contrasena || !cargos_id) {
+      return res.status(400).json({ error: 'Faltan datos requeridos' });
+    }
+
+    // Aquí normalmente haces hashing de contraseña:
+    const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+    // Guardar usuario en la base de datos:
+    await pool.query('INSERT INTO usuario (nombre, correo, contrasena, cargos_id) VALUES (?, ?, ?, ?)', [
+      nombre, correo, hashedPassword, cargos_id
+    ]);
+
+    res.status(201).json({ message: 'Usuario registrado correctamente' });
+
+  } catch (error) {
+    console.error('Error en registro:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 
 
 

@@ -1,0 +1,89 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Crear Cuenta</h2>
+    <div class="form-wrapper">
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+
+        <label for="nombre">Nombre Completo</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          [(ngModel)]="nombre"
+          required minlength="3"
+          #nombreInput="ngModel"
+          aria-describedby="nombreError"
+          placeholder="Tu nombre completo"
+        />
+        <div *ngIf="nombreInput.invalid && nombreInput.touched" class="error">
+          <small id="nombreError" *ngIf="nombreInput.errors?.['required']">El nombre es obligatorio.</small>
+          <small id="nombreError" *ngIf="nombreInput.errors?.['minlength']">Mínimo 3 caracteres.</small>
+        </div>
+
+        <label for="correo">Correo Electrónico</label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          [(ngModel)]="correo"
+          required email
+          #correoInput="ngModel"
+          aria-describedby="correoError"
+          placeholder="ejemplo@correo.com"
+        />
+        <div *ngIf="correoInput.invalid && correoInput.touched" class="error">
+          <small id="correoError" *ngIf="correoInput.errors?.['required']">El correo es obligatorio.</small>
+          <small id="correoError" *ngIf="correoInput.errors?.['email']">Correo inválido.</small>
+        </div>
+
+        <label for="contrasena">Contraseña</label>
+        <input
+          type="password"
+          id="contrasena"
+          name="contrasena"
+          [(ngModel)]="contrasena"
+          required minlength="6"
+          #contrasenaInput="ngModel"
+          aria-describedby="contrasenaError"
+          placeholder="Mínimo 6 caracteres"
+        />
+        <div *ngIf="contrasenaInput.invalid && contrasenaInput.touched" class="error">
+          <small id="contrasenaError" *ngIf="contrasenaInput.errors?.['required']">La contraseña es obligatoria.</small>
+          <small id="contrasenaError" *ngIf="contrasenaInput.errors?.['minlength']">Mínimo 6 caracteres.</small>
+        </div>
+
+        <label for="confirmContrasena">Confirmar Contraseña</label>
+        <input
+          type="password"
+          id="confirmContrasena"
+          name="confirmContrasena"
+          [(ngModel)]="confirmContrasena"
+          required
+          [class.invalid]="confirmContrasena && confirmContrasena !== contrasena"
+          placeholder="Repite tu contraseña"
+          #confirmContrasenaInput="ngModel"
+          aria-describedby="confirmContrasenaError"
+        />
+        <div *ngIf="confirmContrasena && confirmContrasena !== contrasena" class="error" id="confirmContrasenaError">
+          <small>Las contraseñas no coinciden.</small>
+        </div>
+
+        <label for="cargo">Tipo de Usuario</label>
+        <select id="cargo" name="cargo" [(ngModel)]="cargos_id" required>
+          <option *ngFor="let cargo of cargos" [value]="cargo.id">{{ cargo.nombre }}</option>
+        </select>
+
+        <button type="submit" [disabled]="registerForm.invalid || contrasena !== confirmContrasena">
+          Crear Cuenta
+        </button>
+      </form>
+    </div>
+
+    <p *ngIf="error" class="error-msg">{{ error }}</p>
+
+    <p class="login-link">
+      ¿Ya tienes una cuenta?
+      <a href="" (click)="navigateLogin($event)">Inicia sesión aquí</a>
+    </p>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+
 <div class="container">
   <header class="header-top">
     <button (click)="volver()" aria-label="Volver" class="btn-volver">
@@ -19,12 +20,12 @@
     />
 
     <label for="itemsPorPagina">Mostrar:</label>
-    <select id="itemsPorPagina" [(ngModel)]="itemsPorPagina" (change)="cambiarPagina(1); filtrarProveedores()">
-      <option [value]="5">5</option>
-      <option [value]="10">10</option>
-      <option [value]="20">20</option>
-      <option [value]="50">50</option>
-    </select>
+    <select [(ngModel)]="itemsPorPagina" (change)="onChangeItemsPorPagina()">
+  <option [value]="5">5</option>
+  <option [value]="10">10</option>
+  <option [value]="20">20</option>
+  <option [value]="50">50</option>
+</select>
     <a routerLink="/inventory/proveedores/nuevo" class="btn agregar">Agregar proveedor</a>
   </div>
 
@@ -39,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-     <tr *ngFor="let p of proveedoresPaginados" [@listAnimation] [attr.data-id]="p.id">
+     <tr *ngFor="let p of proveedoresPaginados">
         <td>{{ p.nombre }}</td>
         <td>{{ p.ruc }}</td>
         <td>{{ p.direccion }}</td>
@@ -60,11 +61,11 @@
 
   <div class="pagination" *ngIf="totalPaginas > 1">
     <button
-      *ngFor="let p of [].constructor(totalPaginas); let i = index"
-      (click)="cambiarPagina(i + 1)"
-      [disabled]="paginaActual === i + 1"
-    >
-      {{ i + 1 }}
-    </button>
+  *ngFor="let p of [].constructor(totalPaginas); let i = index"
+  (click)="cambiarPagina(i + 1)"
+  [disabled]="paginaActual === i + 1"
+>
+  {{ i + 1 }}
+</button>
   </div>
 </div>

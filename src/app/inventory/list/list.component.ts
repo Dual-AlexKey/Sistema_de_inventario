@@ -154,7 +154,8 @@ obtenerNombreCategoriaPorSubcategoria(subcatId?: number): string {
     this.router.navigate(['/inventory/productos/nuevo']);
   }
   volver() {
-  this.router.navigate(['/']); // O la ruta que uses para la página principal
+      this.router.navigate(['/intro']);
+ // O la ruta que uses para la página principal
 }
 
 

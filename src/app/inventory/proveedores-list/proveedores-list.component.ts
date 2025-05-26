@@ -35,16 +35,17 @@ export class ProveedoresListComponent implements OnInit {
   }
 
 
-  filtrarProveedores() {
-    const term = this.searchTerm.toLowerCase();
-    this.proveedoresFiltrados = this.proveedores.filter(p =>
-      p.nombre.toLowerCase().includes(term) ||
-      p.ruc.toLowerCase().includes(term) ||
-      p.direccion.toLowerCase().includes(term)
-    );
-    this.paginaActual = 1;
-  }
-
+filtrarProveedores() {
+  const term = this.searchTerm.toLowerCase();
+  this.proveedoresFiltrados = this.proveedores.filter(p =>
+    p.nombre.toLowerCase().includes(term)
+  );
+  this.paginaActual = 1;
+}
+onChangeItemsPorPagina() {
+  this.paginaActual = 1;
+  this.filtrarProveedores();
+}
 
   eliminar(id: number) {
     if (!confirm('¿Eliminar este proveedor?')) return;
@@ -54,9 +55,9 @@ export class ProveedoresListComponent implements OnInit {
     });
   }
 
-  cambiarPagina(n: number) {
-    this.paginaActual = n;
-  }
+ cambiarPagina(n: number) {
+  this.paginaActual = n;
+}
 editar(id: number) {
   this.router.navigate(['/inventory/proveedores/editar', id]);
 }
@@ -66,13 +67,13 @@ editar(id: number) {
   }
 
   volver() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/intro']);
   }
 
   get proveedoresPaginados(): Proveedor[] {
-    const start = (this.paginaActual - 1) * this.itemsPorPagina;
-    return this.proveedoresFiltrados.slice(start, start + this.itemsPorPagina);
-  }
+  const start = (this.paginaActual - 1) * this.itemsPorPagina;
+  return this.proveedoresFiltrados.slice(start, start + this.itemsPorPagina);
+}
 
   get totalPaginas(): number {
     return Math.ceil(this.proveedoresFiltrados.length / this.itemsPorPagina);

@@ -1,0 +1,120 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f7f8;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-card {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(8, 145, 81, 0.15);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 24px;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.form-wrapper {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
+  margin-top: 16px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #089151;
+  box-shadow: 0 0 8px #089151aa;
+}
+
+input.invalid {
+  border-color: #e74c3c;
+  box-shadow: 0 0 6px #e74c3caa;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+button {
+  margin-top: 28px;
+  width: 100%;
+  background-color: #089151;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #9acd9a;
+  cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+  background-color: #066a3a;
+}
+
+.error-msg {
+  margin-top: 16px;
+  text-align: center;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.login-link {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.login-link a {
+  color: #089151;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

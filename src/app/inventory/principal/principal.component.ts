@@ -1,6 +1,7 @@
 // principal.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -9,4 +10,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css'],
 })
-export class PrincipalComponent {}
+export class PrincipalComponent {
+
+}

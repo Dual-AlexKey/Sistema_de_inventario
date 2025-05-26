@@ -1,13 +1,21 @@
 import { Routes } from '@angular/router';
-
+import { LoginComponent } from '../auth/login/login.component';
+ // importa bien
 import { PrincipalComponent } from './principal/principal.component';
 import { ListComponent } from './list/list.component';
 import { FormComponent } from './form/form.component';
 import { ProveedoresListComponent } from './proveedores-list/proveedores-list.component';
 import { ProveedoresFormComponent } from './proveedores-form/proveedores-form.component';
+import { RegisterComponent } from '../auth/register/register.component';
 
-export const inventoryRoutes: Routes = [
-  { path: '', component: PrincipalComponent },
+// Opcionalmente, un guard para proteger rutas
+import { AuthGuard } from '../auth/auth.guard';
+
+export const routes: Routes = [
+  { path: '', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  { path: 'intro', component: PrincipalComponent },
   {
     path: 'inventory',
     children: [
@@ -20,7 +28,10 @@ export const inventoryRoutes: Routes = [
       { path: 'proveedores', component: ProveedoresListComponent },
       { path: 'proveedores/nuevo', component: ProveedoresFormComponent },
       { path: 'proveedores/editar/:id', component: ProveedoresFormComponent },
+
+      // ventas
+      //{path: 'procesar-ventas', component: ProcesarVentasComponent}
     ]
   },
-  { path: '**', redirectTo: '' } // ruta comodín redirigiendo a principal
+  { path: '**', redirectTo: 'intro',pathMatch: 'full' } // ruta comodín redirigiendo a principal
 ];

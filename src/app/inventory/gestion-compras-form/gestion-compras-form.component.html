@@ -1,0 +1,179 @@
+<div class="container">
+  <!-- Header -->
+  <header class="header-top">
+    <button class="btn-volver" (click)="volver()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <img src="/logo.png" alt="Logo Empresa" class="logo" />
+    <h1>Proceso de Compras</h1>
+  </header>
+
+  <!-- Filtros de búsqueda -->
+   <div class="filters">
+    <input type="text" placeholder="Buscar por proveedor" [(ngModel)]="searchTerm" (ngModelChange)="filtrarCompras()"/>
+    <select [(ngModel)]="selectedProveedor" (ngModelChange)="filtrarCompras()">
+      <option value="0">Seleccione proveedor</option>
+      <option *ngFor="let proveedor of proveedores" [value]="proveedor.id">{{ proveedor.nombre }}</option>
+    </select>
+    <button (click)="filtrarCompras()">Filtrar</button>
+  </div>
+
+  <!-- Botón para abrir el modal de registro -->
+  <button type="button" (click)="openModal()" class="btn-registrar">
+    Registrar Compra
+  </button>
+
+  <!-- Modal de registro de compra -->
+  <div *ngIf="mostrarModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Registro de compra</h2>
+      <form #form="ngForm" (ngSubmit)="registrarCompra(form)">
+        <div class="form-group">
+          <label for="proveedor">Proveedor</label>
+          <select id="proveedor" name="proveedor" [(ngModel)]="proveedorSeleccionado" required>
+            <option *ngFor="let proveedor of proveedores" [value]="proveedor.id">{{ proveedor.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fechaCompra">Fecha de Compra</label>
+          <input id="fechaCompra" type="date" name="fechaCompra" [(ngModel)]="fechaCompra" required />
+        </div>
+
+        <div class="form-group">
+          <label for="compraNumero">Compra N°</label>
+          <input id="compraNumero" type="text" name="compraNumero" [(ngModel)]="compraNumero" required />
+        </div>
+
+        <div class="form-group">
+          <button type="button" (click)="mostrarModalProducto = true" class="btn-agregar-producto">
+            Agregar productos
+          </button>
+        </div>
+
+        <!-- Tabla productos -->
+        <div class="productos-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+                <th>Precio Unit.</th>
+                <th>Precio Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let producto of productosSeleccionados">
+                <td>{{ producto.codigo }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <td>{{ producto.precioUnitario | currency }}</td>
+                <td>{{ producto.precioUnitario * producto.cantidad | currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" [disabled]="form.invalid" class="btn-guardar">Guardar datos</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<!-- Modal para agregar productos -->
+<div *ngIf="mostrarModalProducto" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="mostrarModalProducto = false">&times;</span>
+
+    <h2>Buscar productos</h2>
+
+    <div class="filters">
+      <input type="text" placeholder="Buscar producto..." [(ngModel)]="searchTerm" (ngModelChange)="filtrarProductos()" />
+      <button type="button" (click)="filtrarProductos()" class="btn-buscar">Buscar</button>
+    </div>
+
+    <!-- Tabla de productos -->
+    <table class="productos-table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Fabricante</th>
+          <th>Cant.</th>
+          <th>Costo</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados.slice((paginaActual - 1) * productosPorPagina, paginaActual * productosPorPagina)">
+          <td>{{ producto.codigo }}</td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.marca }}</td>
+          <td><input type="number" [(ngModel)]="producto.cantidad" min="1" /></td>
+          <td>{{ producto.precio_unitario | currency }}</td>
+          <td><button (click)="agregarProducto(producto)">Agregar</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button (click)="anteriorPagina()">Anterior</button>
+      <span>Página {{ paginaActual }}</span>
+      <button (click)="siguientePagina()">Siguiente</button>
+    </div>
+
+    <button type="button" class="btn-cerrar" (click)="mostrarModalProducto = false">Cerrar</button>
+  </div>
+</div>
+
+
+  <!-- Listado de compras -->
+  <div class="listado-compras">
+    <h2>Listado de Compras</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Compra N°</th>
+          <th>Proveedor</th>
+          <th>Fecha</th>
+          <th>Usuario</th>
+          <th>Neto</th>
+          <th>IVA</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let compra of compras">
+          <td>{{ compra.numero }}</td>
+          <td>{{ compra.proveedor.nombre }}</td>
+          <td>{{ compra.fecha | date }}</td>
+          <td>{{ compra.usuario }}</td>
+          <td>{{ compra.neto | currency }}</td>
+          <td>{{ compra.iva | currency }}</td>
+          <td>{{ compra.total | currency }}</td>
+          <td class="acciones">
+            <button (click)="editarCompra(compra)">Editar</button>
+            <button (click)="eliminarCompra(compra.id)">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <div class="pagination">
+      <button (click)="anteriorPagina()">Anterior</button>
+      <span>Página 1</span>
+      <button (click)="siguientePagina()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; 2025 Nombre de la Empresa. Todos los derechos reservados.</p>
+</footer>

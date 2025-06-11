@@ -298,9 +298,83 @@ app.delete('/api/proveedores/:id', async (req, res) => {
 
 
 
+// Registrar nueva compra
+app.post('/api/orden-compra', async (req, res) => {
+  const { proveedor_id, usuario_id, productos } = req.body;
+
+  try {
+    // Insertar una nueva orden de compra
+    const [result] = await pool.query(
+      `INSERT INTO orden_compra (proveedores_id, usuario_id, estado_operacion) VALUES (?, ?, ?)`,
+      [proveedor_id, usuario_id, 1] // Estado_operacion 1: Pendiente
+    );
+
+    const ordenCompraId = result.insertId;
+
+    // Insertar productos relacionados con la orden de compra
+    for (const producto of productos) {
+      await pool.query(
+        `INSERT INTO orden_compra_productos (orden_compra_id, productos_id, cantidad, precio_unitario, observaciones) VALUES (?, ?, ?, ?, ?)`,
+        [ordenCompraId, producto.producto_id, producto.cantidad, producto.precio_unitario, producto.observaciones || '']
+      );
+    }
+
+    res.status(201).json({ message: 'Compra registrada correctamente', ordenCompraId });
+  } catch (error) {
+    console.error('Error al registrar compra', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
+// Obtener todas las ordenes de compra
+app.get('/api/orden-compra', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT oc.id, oc.fecha, oc.estado_operacion, p.nombre as proveedor,
+              SUM(ocp.cantidad * ocp.precio_unitario) as total
+       FROM orden_compra oc
+       JOIN proveedores p ON oc.proveedores_id = p.id
+       JOIN orden_compra_productos ocp ON oc.id = ocp.orden_compra_id
+       GROUP BY oc.id, p.nombre`
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener ordenes de compra', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
+
+// Obtener detalles de una orden de compra por id
+app.get('/api/orden-compra/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [ordenCompra] = await pool.query(
+      `SELECT oc.id, oc.fecha, p.nombre as proveedor
+       FROM orden_compra oc
+       JOIN proveedores p ON oc.proveedores_id = p.id
+       WHERE oc.id = ?`, [id]
+    );
+
+    if (ordenCompra.length === 0) {
+      return res.status(404).json({ error: 'Orden de compra no encontrada' });
+    }
+
+    const [productos] = await pool.query(
+      `SELECT ocp.cantidad, ocp.precio_unitario, p.nombre as producto
+       FROM orden_compra_productos ocp
+       JOIN productos p ON ocp.productos_id = p.id
+       WHERE ocp.orden_compra_id = ?`, [id]
+    );
+
+    res.json({ ordenCompra: ordenCompra[0], productos });
+  } catch (error) {
+    console.error('Error al obtener orden de compra', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 

@@ -1,0 +1,345 @@
+/* Estilo para el contenedor principal */
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 30px 35px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(8, 145, 81, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Header */
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid #fddb0a;
+  padding-bottom: 12px;
+}
+
+.btn-volver {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  color: #089151;
+}
+
+.btn-volver:hover {
+  background-color: #e6f4ea;
+  color: #066a3a;
+}
+
+.btn-volver svg {
+  display: block;
+}
+
+/* Logo */
+.logo {
+  height: 48px;
+  width: auto;
+  user-select: none;
+}
+
+/* Título */
+.header-top h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #089151;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Filtros de búsqueda */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filters input[type="text"], .filters select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filters input[type="text"]:focus, .filters select:focus {
+  border-color: #089151;
+  outline: none;
+  box-shadow: 0 0 8px rgba(8, 145, 81, 0.2);
+}
+
+.filters select {
+  width: 160px;
+}
+
+/* Botón para abrir el modal de registro */
+.btn-registrar {
+  background-color: #fddb0a;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 32px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-registrar:hover {
+  background-color: #e6c806;
+}/* Estilo del modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto; /* Permite que el modal sea desplazable si su contenido excede la altura de la ventana */
+  display: flex;
+  justify-content: center; /* Centra el modal horizontalmente */
+  align-items: flex-start; /* Alinea el modal hacia la parte superior de la pantalla */
+  padding-top: 50px; /* Agrega un espacio desde la parte superior de la pantalla */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 8px 25px rgba(8, 145, 81, 0.2);
+  max-height: 70vh; /* Define la altura máxima del modal */
+  overflow-y: auto; /* Muestra una barra de desplazamiento vertical cuando el contenido es muy largo */
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Botón para cerrar el modal */
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  float: right;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilo del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+form label {
+  font-weight: 600;
+  color: #444;
+}
+
+form input, form select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+form input[type="number"]:focus, form select:focus {
+  border-color: #089151;
+  outline: none;
+  box-shadow: 0 0 8px rgba(8, 145, 81, 0.2);
+}
+
+/* Botón para registrar compra */
+form button {
+  background-color: #fddb0a;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 32px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #e6c806;
+}
+
+/* Estilo para los productos agregados */
+form button[type="button"] {
+  background-color: #089151;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="button"]:hover {
+  background-color: #066a3a;
+}
+
+/* Listado de compras */
+.listado-compras {
+  margin-top: 40px;
+}
+
+.listado-compras table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  font-size: 1rem;
+}
+
+thead th {
+  background-color: #089151;
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 20px;
+  text-align: left;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  user-select: none;
+}
+
+tbody tr {
+  background: #fefefe;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 0.07);
+  border-radius: 12px;
+  transition: background-color 0.25s ease;
+}
+
+tbody tr:hover {
+  background-color: #f1f9f3;
+}
+
+tbody td {
+  padding: 14px 20px;
+  vertical-align: middle;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estados con colores */
+.estado-activo {
+  color: #089151;
+  font-weight: 700;
+}
+
+.estado-inactivo {
+  color: #e74c3c;
+  font-weight: 700;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.pagination button {
+  background: #fddb0a;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #089151;
+  min-width: 40px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #e6c806;
+}
+
+.pagination button:disabled {
+  cursor: default;
+  background-color: #9acd9a;
+  color: #555;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  background-color: #fddb0a;
+  text-align: center;
+  padding: 20px;
+  color: #089151;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .filters {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filters input[type="text"], .filters select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  form {
+    gap: 20px;
+  }
+
+  .listado-compras table {
+    font-size: 0.9rem;
+  }
+
+  .listado-compras table td, .listado-compras table th {
+    padding: 12px 8px;
+  }
+}
+/* Agregar una animación suave al modal */
+.modal-content {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
